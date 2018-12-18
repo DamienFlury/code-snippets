@@ -25,3 +25,33 @@ using (var searcher = new PrincipalSearcher (new UserPrincipal (context))) {
     }
 }
 ```
+
+## Add Swagger to API project
+
+### Install `NSwag.AspNetCore`
+
+```console
+dotnet add package NSwag.AspNetCore
+```
+
+### ConfigureServices
+
+```csharp
+services.AddSwaggerDocument (options =>
+{
+    options.Title = "EmployeeAPI";
+    options.OperationProcessors.Add (
+        new OperationSecurityScopeProcessor ("JWT token")
+    );
+});
+```
+
+### Configure
+
+```csharp
+if (env.IsDevelopment ())
+{
+    app.UseSwagger ();
+    app.UseSwaggerUi3 ();
+}
+```
